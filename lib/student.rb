@@ -38,6 +38,57 @@ class Student
     # return a new instance of the Student class
   end
   
+  def self.all_students_in_grade_9
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = '9th'
+    SQL
+    
+    DB[:conn].execute(sql)
+  end
+  
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade != '12th'
+    SQL
+    
+    DB[:conn].execute(sql)
+  end
+  
+  def self.first_X_students_in_grade_10(num)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = '10th'
+      LIMIT ? 
+    SQL
+    
+    DB[:conn].execute(sql, num)
+  end
+  
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = '10th'
+      LIMIT 1 
+    SQL
+    
+    DB[:conn].execute(sql)
+  end
+  
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ? 
+    SQL
+    
+    DB[:conn].execute(sql, grade)
+  end
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade) 
